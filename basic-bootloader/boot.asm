@@ -1,29 +1,28 @@
-[BITS 16]        ; Указываем, что код 16-битный
-[ORG 0x7C00]     ; Адрес загрузки BIOS
+[BITS 16] 
+[ORG 0x7C00]    
 
 start:
-    ; Очищаем регистры
     xor ax, ax
-    mov ds, ax   ; Сегмент данных в 0
-    mov es, ax   ; Сегмент дополнительный в 0
+    mov ds, ax  
+    mov es, ax  
 
-    ; Выводим строку "Hello, World!" на экран
-    mov si, hello_msg  ; Указатель на строку
+    
+    mov si, hello_msg  
 print_char:
-    lodsb              ; Загружаем следующий символ в AL
-    cmp al, 0          ; Проверяем конец строки (нулевой байт)
-    je hang            ; Если конец строки, переходим в цикл зависания
+    lodsb       
+    cmp al, 0       
+    je hang      
 
-    mov ah, 0x0E       ; Функция BIOS: вывод символа
-    int 0x10           ; Вызов прерывания
-    jmp print_char     ; Переходим к следующему символу
+    mov ah, 0x0E    
+    int 0x10    
+    jmp print_char 
 
 hang:
-    cli                ; Запрещаем прерывания
-    hlt                ; Останавливаем процессор
-    jmp hang           ; Бесконечный цикл
+    cli           
+    hlt          
+    jmp hang      
 
-hello_msg db "Hello, World!", 0 ; Строка с завершающим нулем
+hello_msg db "Hello, World!", 0
 
-times 510-($-$$) db 0 ; Заполняем оставшееся место нулями
-dw 0xAA55             ; Завершающий сигнатурный байт загрузочного сектора
+times 510-($-$$) db 0 
+dw 0xAA55         
