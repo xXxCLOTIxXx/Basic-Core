@@ -27,5 +27,6 @@ extern "C" void kernel_main(uint32_t memory_map_address) {
     print("Welcome to the simple kernel!\n");
 
     while (1) {
+        __asm__("hlt");
     }
 }
